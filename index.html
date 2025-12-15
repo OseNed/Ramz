@@ -1,96 +1,23 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="scroll-smooth">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RAMZ | رمز - الاستثمار العقاري</title>
-    
+
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Manrope:wght@400;500;700;800&family=Noto+Sans+Arabic:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: {
-                DEFAULT: '#0ab861',
-                dark: '#08924c',
-                light: '#e6f8ef',
-              },
-              accent: {
-                gold: '#d4af37',
-              },
-              background: {
-                light: '#fcfdfc',
-                dark: '#102219',
-                subtle: '#f5f8f7',
-              },
-              text: {
-                main: '#111814',
-                muted: '#608a75',
-              },
-              border: {
-                light: '#eef4f1',
-              }
-            },
-            fontFamily: {
-              sans: ['Almarai', 'Noto Sans Arabic', 'sans-serif'],
-              display: ['Almarai', 'sans-serif'],
-              english: ['Manrope', 'sans-serif'],
-            },
-            boxShadow: {
-              'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
-              'glow': '0 0 15px rgba(10, 184, 97, 0.3)',
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #cbd5e1; 
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8; 
-      }
-      
-      /* Hide scrollbar for horizontal scrolling areas but keep functionality */
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@18.2.0",
-    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
-    "react-router-dom": "https://esm.sh/react-router-dom@6.22.3",
-    "lucide-react": "https://esm.sh/lucide-react@0.344.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/"
-  }
-}
-</script>
-</head>
-  <body class="bg-background-light text-text-main antialiased selection:bg-primary/20 selection:text-primary">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Manrope:wght@400;500;700;800&family=Noto+Sans+Arabic:wght@300;400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-background-light text-text-main antialiased">
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+
+    <!-- Vite entry -->
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
