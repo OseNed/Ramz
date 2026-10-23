@@ -1,48 +1,27 @@
 import { Compass, Link2, ClipboardCheck } from "lucide-react";
 
-const capabilities = [
+const steps = [
   {
     icon: Compass,
     title: "Discover",
     description:
       "Build visibility into the AI systems, models, and agents your organization uses.",
+    flowTo: "AI inventory",
   },
   {
     icon: Link2,
     title: "Govern",
     description: "Connect AI assets to applicable requirements, risks, and controls.",
+    flowTo: "Governance context",
   },
   {
     icon: ClipboardCheck,
     title: "Assess",
     description:
       "Bring assessments, evidence, and findings into one connected governance workflow.",
+    flowTo: null,
   },
 ];
-
-const tiers = [
-  {
-    label: "AI assets",
-    items: ["AI Systems", "Models", "Agents"],
-    tone: "cat-systems" as const,
-  },
-  {
-    label: "Governance context",
-    items: ["Requirements", "Risks", "Controls"],
-    tone: "cat-requirements" as const,
-  },
-  {
-    label: "Actionable outputs",
-    items: ["Assessments", "Evidence", "Findings"],
-    tone: "cat-evidence" as const,
-  },
-];
-
-const toneClasses: Record<(typeof tiers)[number]["tone"], string> = {
-  "cat-systems": "border-[#DBDDE1] bg-[#EEF0F3] text-[#5D6577]",
-  "cat-requirements": "border-[#E0DCE7] bg-[#F1EDF5] text-[#745E91]",
-  "cat-evidence": "border-[#E7E1DE] bg-[#F5EEEB] text-[#7D635A]",
-};
 
 export function Platform() {
   return (
@@ -58,47 +37,40 @@ export function Platform() {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,380px)] lg:items-center lg:gap-12">
-          <ol className="grid gap-8 sm:grid-cols-3 sm:gap-6">
-            {capabilities.map(({ icon: Icon, title, description }, index) => (
-              <li key={title}>
-                <div className="flex items-center gap-2 text-label text-stone uppercase">
-                  <span>{String(index + 1).padStart(2, "0")}</span>
+        <div className="relative mt-20">
+          {/* Connecting line: a single continuous path through all three
+              stages, so the sequence reads as one system, not three
+              separate cards. */}
+          <div
+            aria-hidden="true"
+            className="absolute top-7 right-[16.5%] left-[16.5%] hidden h-px bg-gradient-to-r from-hairline via-accent/40 to-hairline sm:block"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute top-7 bottom-7 left-7 w-px bg-gradient-to-b from-hairline via-accent/40 to-hairline sm:hidden"
+          />
+
+          <ol className="relative flex flex-col gap-10 sm:grid sm:grid-cols-3 sm:gap-8">
+            {steps.map(({ icon: Icon, title, description, flowTo }, index) => (
+              <li key={title} className="relative flex gap-5 sm:flex-col sm:gap-0">
+                <div className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-hairline bg-canvas">
+                  <Icon className="h-5 w-5 text-ink" strokeWidth={1.75} aria-hidden="true" />
                 </div>
-                <Icon className="mt-3 h-5 w-5 text-ink" strokeWidth={1.75} aria-hidden="true" />
-                <h3 className="mt-3 text-heading-md text-ink">{title}</h3>
-                <p className="mt-2 text-body-md text-muted">{description}</p>
+                <div className="sm:mt-5">
+                  <div className="text-label text-stone uppercase">
+                    Step {String(index + 1).padStart(2, "0")}
+                  </div>
+                  <h3 className="mt-1 text-heading-md text-ink">{title}</h3>
+                  <p className="mt-2 text-body-md text-muted">{description}</p>
+                  {flowTo && (
+                    <p className="mt-3 hidden text-xs font-medium tracking-[0.01em] text-accent-deep lg:block">
+                      → {flowTo}
+                    </p>
+                  )}
+                </div>
               </li>
             ))}
           </ol>
-
-          <div
-            aria-hidden="true"
-            className="rounded-xl border border-hairline bg-canvas-off p-6 sm:p-8"
-          >
-            <div className="flex flex-col items-stretch">
-              {tiers.map((tier, index) => (
-                <div key={tier.label}>
-                  <div className="text-center text-label uppercase text-stone">
-                    {tier.label}
-                  </div>
-                  <div className="mt-3 flex flex-wrap justify-center gap-2">
-                    {tier.items.map((item) => (
-                      <span
-                        key={item}
-                        className={`rounded-md border px-3 py-1.5 text-sm font-medium ${toneClasses[tier.tone]}`}
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                  {index < tiers.length - 1 && (
-                    <div className="mx-auto my-5 h-6 w-px bg-hairline" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </section>
