@@ -92,7 +92,7 @@ export function RequestAccessForm() {
             required
             autoComplete="email"
             placeholder="you@company.com"
-            className="mt-1.5 h-11 w-full rounded-md border border-stone bg-canvas px-3 text-body-md text-ink outline-none placeholder:text-stone focus:border-ink focus:ring-1 focus:ring-ink"
+            className="mt-1.5 h-11 w-full rounded-md border border-stone bg-canvas px-3 text-body-md text-ink outline-none placeholder:text-stone focus:border-accent focus:ring-1 focus:ring-accent"
           />
         </div>
 
@@ -107,7 +107,7 @@ export function RequestAccessForm() {
             required
             autoComplete="organization"
             placeholder="Acme Corp"
-            className="mt-1.5 h-11 w-full rounded-md border border-stone bg-canvas px-3 text-body-md text-ink outline-none placeholder:text-stone focus:border-ink focus:ring-1 focus:ring-ink"
+            className="mt-1.5 h-11 w-full rounded-md border border-stone bg-canvas px-3 text-body-md text-ink outline-none placeholder:text-stone focus:border-accent focus:ring-1 focus:ring-accent"
           />
         </div>
 
@@ -120,7 +120,7 @@ export function RequestAccessForm() {
             name="message"
             rows={4}
             placeholder="Tell us about your AI governance needs."
-            className="mt-1.5 w-full resize-none rounded-md border border-stone bg-canvas px-3 py-2.5 text-body-md text-ink outline-none placeholder:text-stone focus:border-ink focus:ring-1 focus:ring-ink"
+            className="mt-1.5 w-full resize-none rounded-md border border-stone bg-canvas px-3 py-2.5 text-body-md text-ink outline-none placeholder:text-stone focus:border-accent focus:ring-1 focus:ring-accent"
           />
         </div>
       </div>
@@ -134,7 +134,7 @@ export function RequestAccessForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-6 inline-flex h-11 w-full items-center justify-center rounded-md bg-ink px-6 text-sm font-medium text-white transition-opacity duration-150 ease-ramz hover:opacity-90 disabled:opacity-60 sm:w-auto"
+        className="mt-6 inline-flex h-11 w-full items-center justify-center rounded-md bg-accent px-6 text-sm font-medium text-white transition-opacity duration-150 ease-ramz hover:opacity-90 disabled:opacity-60 sm:w-auto"
       >
         {status === "submitting" ? "Sending…" : "Request Early Access"}
       </button>

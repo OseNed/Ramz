@@ -8,7 +8,7 @@ export function LogoMark({ className }: { className?: string }) {
     <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" className={className}>
       <circle cx="32" cy="32" r="27" stroke="currentColor" strokeWidth="5" />
       <rect x="20" y="20" width="10" height="10" rx="3" fill="currentColor" />
-      <rect x="34" y="20" width="10" height="10" rx="3" fill="#494FDF" />
+      <rect x="34" y="20" width="10" height="10" rx="3" fill="#4F46E5" />
       <rect x="20" y="34" width="10" height="10" rx="3" fill="currentColor" />
       <rect x="34" y="34" width="10" height="10" rx="3" fill="currentColor" />
     </svg>

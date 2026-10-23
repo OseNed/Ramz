@@ -3,14 +3,14 @@ import { GovernanceGraph, GovernanceGraphMobile } from "./governance-graph";
 
 export function Hero() {
   return (
-    <section id="top" className="overflow-hidden bg-black pb-16 pt-16 sm:pb-24 sm:pt-24">
+    <section id="top" className="overflow-hidden bg-hero pb-20 pt-20 sm:pb-28 sm:pt-28">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-display-lg sm:text-display-xl text-balance text-white">
+        <div className="mx-auto max-w-2xl text-center">
+          <h1 className="text-display-lg sm:text-display-xl text-balance text-ink">
             AI Governance for the{" "}
             <span className="text-accent">Autonomous Era.</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-body-lg text-on-dark-muted">
+          <p className="mx-auto mt-6 max-w-xl text-body-lg text-muted">
             One connected platform to discover, govern, and assess AI systems
             and agents.
           </p>
@@ -25,7 +25,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="mx-auto mt-16 max-w-6xl px-6 sm:mt-20">
+      <div className="mx-auto mt-20 max-w-6xl px-6 sm:mt-24">
         <GovernanceGraph />
         <GovernanceGraphMobile />
       </div>

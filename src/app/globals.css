@@ -28,6 +28,11 @@
   --color-danger-text: var(--ramz-danger-text);
   --color-success-text: var(--ramz-success-text);
 
+  /* Cool-grey hero. */
+  --color-hero: var(--ramz-hero-bg);
+  --color-hero-border: var(--ramz-hero-border);
+  --color-graph-line: var(--ramz-graph-line);
+
   --radius-sm: 0.25rem;
   --radius-md: 0.375rem;
   --radius-lg: 0.5rem;
@@ -62,9 +67,9 @@
 }
 
 :root {
-  --ramz-ink: #191c1f;
+  --ramz-ink: #171923;
   --ramz-body: #1f2226;
-  --ramz-muted: #505a63;
+  --ramz-muted: #626b7b;
   --ramz-stone: #8d969e;
 
   --ramz-canvas: #ffffff;
@@ -79,9 +84,14 @@
   --ramz-on-dark: #ffffff;
   --ramz-on-dark-muted: rgb(255 255 255 / 0.68);
 
-  /* Brand accent — the indigo used in the pitch deck. */
-  --ramz-accent: #494fdf;
-  --ramz-accent-deep: #3c41b8;
+  /* Brand accent — Ramz indigo. */
+  --ramz-accent: #4f46e5;
+  --ramz-accent-deep: #4338ca;
+
+  /* Cool-grey hero: soft, structured, enterprise — not the black hero. */
+  --ramz-hero-bg: #f0f2f7;
+  --ramz-hero-border: #dadfe8;
+  --ramz-graph-line: #c3c9d6;
 
   --ramz-danger-text: #8b0000;
   --ramz-success-text: #006400;
