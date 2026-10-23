@@ -1,20 +1,35 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Ramz website
 
-# Run and deploy your AI Studio app
+The public one-page marketing site for Ramz — getramz.com.
 
-This contains everything you need to run your app locally.
+## Stack
 
-View your app in AI Studio: https://ai.studio/apps/drive/1WWqlxu3WG9nlIuiszPWMyXI022aKgpFx
+- Next.js (App Router) + TypeScript
+- Tailwind CSS v4
+- Resend for the "Request Early Access" form
 
-## Run Locally
+## Development
 
-**Prerequisites:**  Node.js
+```bash
+npm install
+cp .env.example .env.local   # fill in RESEND_API_KEY, LEADS_TO_EMAIL, LEADS_FROM_EMAIL
+npm run dev
+```
 
+## Request Early Access form
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+`POST /api/request-access` validates the submission (zod), rejects honeypot
+and too-fast submissions, rate-limits by IP, and emails the lead via
+[Resend](https://resend.com). It requires three environment variables:
+
+- `RESEND_API_KEY` — API key from your Resend account
+- `LEADS_TO_EMAIL` — inbox that receives leads (e.g. `hello@getramz.com`)
+- `LEADS_FROM_EMAIL` — verified sending address on a domain confirmed in Resend
+
+Without these set, the endpoint returns `503` rather than pretending to
+succeed.
+
+## Brand assets
+
+Logo mark and product screenshots in `public/images/` and
+`src/components/logo.tsx` are sourced from the Ramz pitch deck.

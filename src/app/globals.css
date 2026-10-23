@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/*
+ * Ramz marketing site tokens — derived from RAMZ-DESIGN.md (the product's
+ * design system) plus the indigo brand accent used in the pitch deck.
+ * The product itself stays neutral (charcoal primary, no saturated accent);
+ * this site is allowed the one accent colour as a marketing moment.
+ */
+
+@theme inline {
+  --font-sans: "Inter Variable", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --color-ink: var(--ramz-ink);
+  --color-body: var(--ramz-body);
+  --color-muted: var(--ramz-muted);
+  --color-stone: var(--ramz-stone);
+  --color-canvas: var(--ramz-canvas);
+  --color-canvas-off: var(--ramz-canvas-off);
+  --color-canvas-dark: var(--ramz-canvas-dark);
+  --color-surface-soft: var(--ramz-surface-soft);
+  --color-surface-elevated: var(--ramz-surface-elevated);
+  --color-hairline: var(--ramz-hairline);
+  --color-hairline-dark: var(--ramz-hairline-dark);
+  --color-on-dark: var(--ramz-on-dark);
+  --color-on-dark-muted: var(--ramz-on-dark-muted);
+  --color-accent: var(--ramz-accent);
+  --color-accent-deep: var(--ramz-accent-deep);
+  --color-danger-text: var(--ramz-danger-text);
+  --color-success-text: var(--ramz-success-text);
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  --text-display-xl: 3.75rem;
+  --text-display-xl--line-height: 1.04;
+  --text-display-xl--letter-spacing: -0.04em;
+  --text-display-xl--font-weight: 500;
+  --text-display-lg: 2.75rem;
+  --text-display-lg--line-height: 1.08;
+  --text-display-lg--letter-spacing: -0.035em;
+  --text-display-lg--font-weight: 500;
+  --text-heading-lg: 2rem;
+  --text-heading-lg--line-height: 1.12;
+  --text-heading-lg--letter-spacing: -0.03em;
+  --text-heading-lg--font-weight: 500;
+  --text-heading-md: 1.3125rem;
+  --text-heading-md--line-height: 1.3;
+  --text-heading-md--letter-spacing: -0.015em;
+  --text-heading-md--font-weight: 500;
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.6;
+  --text-body-md: 0.9375rem;
+  --text-body-md--line-height: 1.55;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.2;
+  --text-label--letter-spacing: 0.08em;
+  --text-label--font-weight: 500;
+
+  --ease-ramz: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root {
+  --ramz-ink: #191c1f;
+  --ramz-body: #1f2226;
+  --ramz-muted: #505a63;
+  --ramz-stone: #8d969e;
+
+  --ramz-canvas: #ffffff;
+  --ramz-canvas-off: #fafafa;
+  --ramz-canvas-dark: #000000;
+  --ramz-surface-soft: #f4f5f7;
+  --ramz-surface-elevated: #121316;
+
+  --ramz-hairline: #e2e2e7;
+  --ramz-hairline-dark: rgb(255 255 255 / 0.12);
+
+  --ramz-on-dark: #ffffff;
+  --ramz-on-dark-muted: rgb(255 255 255 / 0.68);
+
+  /* Brand accent — the indigo used in the pitch deck. */
+  --ramz-accent: #494fdf;
+  --ramz-accent-deep: #3c41b8;
+
+  --ramz-danger-text: #8b0000;
+  --ramz-success-text: #006400;
+}
+
+@layer base {
+  * {
+    border-color: var(--ramz-hairline);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-canvas font-sans text-body antialiased;
+    font-optical-sizing: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
