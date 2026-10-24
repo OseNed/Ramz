@@ -1,0 +1,6 @@
+# Secrets for the local Workers preview (`npm run cf:preview`).
+# Copy to .dev.vars (git-ignored). In production set them with
+# `npx wrangler secret put <NAME>`, never in wrangler.jsonc.
+RESEND_API_KEY=
+LEADS_TO_EMAIL=hello@getramz.com
+LEADS_FROM_EMAIL=

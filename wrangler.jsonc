@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ramz-website",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // Shared rate limit for POST /api/request-access (see src/lib/rate-limit.ts).
+  // Workers Rate Limiting only supports 10s or 60s periods; 3 per minute per IP.
+  "ratelimits": [
+    {
+      "name": "REQUEST_ACCESS_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": { "limit": 3, "period": 60 }
+    }
+  ],
+  "observability": { "enabled": true },
+  // No "routes" yet: deploys go to the workers.dev subdomain only. Attach
+  // getramz.com (Custom Domain) once the preview is approved; see README.
+  //
+  // Secrets / vars (never committed):
+  //   RESEND_API_KEY    wrangler secret put RESEND_API_KEY
+  //   LEADS_TO_EMAIL    wrangler secret put LEADS_TO_EMAIL
+  //   LEADS_FROM_EMAIL  wrangler secret put LEADS_FROM_EMAIL
+  // Local Workers preview reads them from .dev.vars (git-ignored).
+}
