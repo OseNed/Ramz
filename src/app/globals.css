@@ -581,6 +581,9 @@
   }
   .field input,
   .field textarea {
+    /* Without these, inputs keep their intrinsic ~20ch width and overflow the card on 320px phones. */
+    width: 100%;
+    min-width: 0;
     border-radius: var(--ramz-radius-input);
     border: 1px solid var(--ramz-border-strong);
     background: var(--ramz-canvas);

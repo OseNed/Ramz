@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     template: "%s | RAMZ",
   },
   description,
+  alternates: { canonical: "/" },
   keywords: [
     "AI governance",
     "Responsible AI",
