@@ -11,8 +11,8 @@ const steps = [
   },
   {
     title: "Assess",
-    description: "Evaluate governance readiness and identify gaps before deployment.",
-    points: ["Assessments and evidence", "Readiness and gap findings"],
+    description: "See which requirements, risks, and controls apply to each system, and why, before deployment.",
+    points: ["Governance profile per system", "A reason for every applicable item"],
   },
 ];
 
@@ -30,7 +30,7 @@ export function Platform() {
         <p className="lead">
           RAMZ covers AI governance, regulatory compliance, and responsible AI in one place.
           Teams manage AI systems, connect regulatory requirements to governance activities,
-          assess risks, and support accountability before deployment.
+          identify applicable risks, and support accountability before deployment.
         </p>
         <div className="rail" aria-hidden="true">
           <div className="rail-track" />

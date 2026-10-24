@@ -1,8 +1,8 @@
 const steps = [
   { title: "Register", body: "Add your AI systems, models, and agents, with owners and context." },
   { title: "Connect", body: "Link each system to regulatory requirements, risks, and controls." },
-  { title: "Assess", body: "Evaluate readiness and surface gaps before deployment." },
-  { title: "Act", body: "Turn findings into deployment decisions with clear ownership." },
+  { title: "Assess", body: "See what applies to each system, and why, before deployment." },
+  { title: "Act", body: "Turn that governance profile into deployment decisions with clear ownership." },
 ];
 
 export function HowItWorks() {
@@ -11,7 +11,7 @@ export function HowItWorks() {
       <div className="container center">
         <div className="eyebrow">HOW IT WORKS</div>
         <h2 id="how-title" className="h2" style={{ maxWidth: 720 }}>
-          From a list of AI systems to evidence you can act on.
+          From a list of AI systems to governance you can act on.
         </h2>
         <ol className="steps">
           {steps.map((step, index) => (

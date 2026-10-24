@@ -5,11 +5,11 @@ const frameworks = [
   },
   {
     name: "NIST AI RMF",
-    body: "AI risk management, with risks and controls connected to the systems they apply to.",
+    body: "Risks and controls informed by the NIST AI RMF, connected to the systems they apply to.",
   },
   {
     name: "ISO/IEC 42001",
-    body: "AI management systems, with accountability and evidence kept in one place.",
+    body: "The AI system inventory, ownership, and accountability an AI management system builds on.",
   },
 ];
 
@@ -30,7 +30,7 @@ export function Frameworks() {
           ))}
         </div>
         <p className="fw-note">
-          RAMZ helps organizations map these frameworks to their AI systems. Using RAMZ does not
+          RAMZ helps organizations organize their AI governance work around these frameworks. Using RAMZ does not
           by itself make an organization compliant with, or certified to, any regulation or
           standard.
         </p>

@@ -2,12 +2,12 @@ const audiences = [
   {
     title: "AI teams",
     body: "Know what governance expects of a system before and after you ship it.",
-    points: ["Register systems and agents", "See applicable requirements", "Attach evidence once"],
+    points: ["Register systems and agents", "See applicable requirements", "See why each requirement applies"],
   },
   {
     title: "Risk and compliance teams",
-    body: "Replace scattered reviews with connected risks, controls, and assessments.",
-    points: ["Map obligations to systems", "Track controls and findings", "Keep an audit-ready record"],
+    body: "Replace scattered reviews with connected requirements, risks, and controls.",
+    points: ["Map obligations to systems", "See linked risks and controls", "Keep one shared record per system"],
   },
   {
     title: "Enterprise leaders",
