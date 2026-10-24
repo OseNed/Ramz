@@ -3,10 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 
 type Status = "idle" | "submitting" | "success" | "error";
+type Field = "email" | "company";
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function RequestAccessForm() {
   const [status, setStatus] = useState<Status>("idle");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState("");
+  const [invalid, setInvalid] = useState<Field | null>(null);
   const renderedAt = useRef<number | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -14,20 +18,31 @@ export function RequestAccessForm() {
     renderedAt.current = Date.now();
   }, []);
 
+  function fail(text: string, field: Field | null = null) {
+    setStatus("error");
+    setMessage(text);
+    setInvalid(field);
+    if (field) (formRef.current?.elements.namedItem(field) as HTMLInputElement | null)?.focus();
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("submitting");
-    setErrorMessage(null);
-
-    const form = event.currentTarget;
-    const data = new FormData(form);
+    const data = new FormData(event.currentTarget);
     const payload = {
-      email: String(data.get("email") ?? ""),
-      company: String(data.get("company") ?? ""),
-      message: String(data.get("message") ?? ""),
+      email: String(data.get("email") ?? "").trim(),
+      company: String(data.get("company") ?? "").trim(),
+      message: String(data.get("message") ?? "").trim(),
       website: String(data.get("website") ?? ""),
       renderedAt: renderedAt.current ?? undefined,
     };
+
+    // Quick client-side checks; the route re-validates with the same zod schema.
+    if (!EMAIL_PATTERN.test(payload.email)) return fail("Enter a valid work email.", "email");
+    if (!payload.company) return fail("Enter your company name.", "company");
+
+    setStatus("submitting");
+    setMessage("");
+    setInvalid(null);
 
     try {
       const response = await fetch("/api/request-access", {
@@ -38,106 +53,88 @@ export function RequestAccessForm() {
       const result = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        setStatus("error");
-        setErrorMessage(
-          typeof result.error === "string" ? result.error : "Something went wrong. Please try again.",
+        return fail(
+          typeof result.error === "string"
+            ? result.error
+            : "Something went wrong. Please try again or email hello@getramz.com.",
         );
-        return;
       }
 
-      setStatus("success");
       formRef.current?.reset();
+      setStatus("success");
+      setMessage("Thanks. We will be in touch.");
     } catch {
-      setStatus("error");
-      setErrorMessage("Something went wrong. Please check your connection and try again.");
+      fail("Something went wrong. Please check your connection and try again.");
     }
   }
 
-  if (status === "success") {
-    return (
-      <div
-        role="status"
-        className="rounded-xl border border-hairline bg-canvas p-8 text-center sm:p-10"
-      >
-        <p className="text-heading-md text-ink">Request received.</p>
-        <p className="mt-2 text-body-md text-muted">
-          Thank you for your interest in Ramz. We&apos;ll be in touch shortly.
-        </p>
-      </div>
-    );
-  }
+  const buttonLabel =
+    status === "submitting"
+      ? "Sending…"
+      : status === "success"
+        ? "Request received"
+        : "Request early access";
 
   return (
-    <form
-      ref={formRef}
-      onSubmit={handleSubmit}
-      noValidate
-      className="rounded-xl border border-hairline bg-canvas p-6 sm:p-8"
-    >
-      {/* Honeypot — hidden from sighted users and screen readers, bots fill it in. */}
-      <div className="sr-only" aria-hidden="true">
+    <form ref={formRef} onSubmit={handleSubmit} noValidate className="ea-form">
+      {/* Honeypot: hidden from sighted users and screen readers, bots fill it in. */}
+      <div className="hp" aria-hidden="true">
         <label htmlFor="website">Leave this field empty</label>
         <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <div className="grid gap-5">
-        <div>
-          <label htmlFor="email" className="text-sm font-medium text-ink">
-            Work email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            autoComplete="email"
-            placeholder="you@company.com"
-            className="mt-1.5 h-11 w-full rounded-md border border-stone bg-canvas px-3 text-body-md text-ink outline-none placeholder:text-stone focus:border-accent focus:ring-1 focus:ring-accent"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="company" className="text-sm font-medium text-ink">
-            Company name
-          </label>
-          <input
-            id="company"
-            name="company"
-            type="text"
-            required
-            autoComplete="organization"
-            placeholder="Acme Corp"
-            className="mt-1.5 h-11 w-full rounded-md border border-stone bg-canvas px-3 text-body-md text-ink outline-none placeholder:text-stone focus:border-accent focus:ring-1 focus:ring-accent"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="message" className="text-sm font-medium text-ink">
-            Message <span className="font-normal text-stone">(optional)</span>
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            rows={4}
-            placeholder="Tell us about your AI governance needs."
-            className="mt-1.5 w-full resize-none rounded-md border border-stone bg-canvas px-3 py-2.5 text-body-md text-ink outline-none placeholder:text-stone focus:border-accent focus:ring-1 focus:ring-accent"
-          />
-        </div>
+      <div className="field">
+        <label htmlFor="email">Work email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          autoComplete="email"
+          placeholder="you@company.com"
+          aria-invalid={invalid === "email" || undefined}
+          aria-describedby="request-access-status"
+        />
       </div>
 
-      {status === "error" && errorMessage && (
-        <p role="alert" className="mt-4 text-sm text-danger-text">
-          {errorMessage}
-        </p>
-      )}
+      <div className="field">
+        <label htmlFor="company">Company name</label>
+        <input
+          id="company"
+          name="company"
+          type="text"
+          required
+          autoComplete="organization"
+          placeholder="Acme Corp"
+          aria-invalid={invalid === "company" || undefined}
+          aria-describedby="request-access-status"
+        />
+      </div>
 
-      <button
-        type="submit"
-        disabled={status === "submitting"}
-        className="mt-6 inline-flex h-11 w-full items-center justify-center rounded-md bg-accent px-6 text-sm font-medium text-white transition-opacity duration-150 ease-ramz hover:opacity-90 disabled:opacity-60 sm:w-auto"
-      >
-        {status === "submitting" ? "Sending…" : "Request Early Access"}
+      <div className="field">
+        <label htmlFor="message">
+          Message <span className="optional">(optional)</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          rows={4}
+          maxLength={2000}
+          placeholder="Tell us about your AI governance needs."
+        />
+      </div>
+
+      <button type="submit" disabled={status === "submitting"} className="btn btn-primary btn-submit">
+        {buttonLabel}
       </button>
+      <p
+        id="request-access-status"
+        role="status"
+        aria-live="polite"
+        className={`form-msg${status === "error" ? " is-error" : ""}`}
+      >
+        {message}
+      </p>
     </form>
   );
 }

@@ -1,39 +1,29 @@
-import Link from "next/link";
 import { Logo } from "./logo";
 
 const links = [
   { href: "#platform", label: "Platform" },
-  { href: "#why-ramz", label: "Why Ramz" },
+  { href: "#how", label: "How it works" },
+  { href: "#frameworks", label: "Frameworks" },
+  { href: "#who", label: "Who it's for" },
 ];
 
 export function Nav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-hero-border bg-hero/85 backdrop-blur-md">
-      <nav
-        aria-label="Primary"
-        className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6"
-      >
-        <Link href="#top" className="text-ink" aria-label="Ramz home">
-          <Logo className="text-ink" />
-        </Link>
-        <ul className="hidden items-center gap-8 sm:flex">
+    <header className="site-header">
+      <nav aria-label="Primary" className="nav">
+        <a href="#top" className="brand" aria-label="RAMZ home">
+          <Logo />
+        </a>
+        <div className="nav-links">
           {links.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="text-body-md text-muted transition-colors duration-150 ease-ramz hover:text-ink"
-              >
-                {link.label}
-              </Link>
-            </li>
+            <a key={link.href} href={link.href}>
+              {link.label}
+            </a>
           ))}
-        </ul>
-        <Link
-          href="#request-access"
-          className="inline-flex h-9 items-center rounded-md bg-accent px-4 text-sm font-medium text-white transition-opacity duration-150 ease-ramz hover:opacity-90"
-        >
-          Request Access
-        </Link>
+        </div>
+        <a href="#early-access" className="btn btn-primary btn-sm">
+          Request early access
+        </a>
       </nav>
     </header>
   );
