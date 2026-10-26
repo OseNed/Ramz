@@ -1,9 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { requestAccessSchema } from "@/lib/request-access-schema";
 import { isRateLimited } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
+
+type Setting = "RESEND_API_KEY" | "LEADS_TO_EMAIL" | "LEADS_FROM_EMAIL";
+
+/**
+ * Reads a setting from process.env (next dev/start, and Workers via OpenNext),
+ * falling back to the Cloudflare Worker env bindings directly.
+ */
+function readSetting(name: Setting): string | undefined {
+  const fromProcess = process.env[name]?.trim();
+  if (fromProcess) return fromProcess;
+  try {
+    return getCloudflareContext().env[name]?.trim() || undefined;
+  } catch {
+    return undefined; // not running on Workers
+  }
+}
 
 function escapeHtml(value: string) {
   return value
@@ -55,14 +72,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.LEADS_TO_EMAIL;
-  const from = process.env.LEADS_FROM_EMAIL;
+  const apiKey = readSetting("RESEND_API_KEY");
+  const to = readSetting("LEADS_TO_EMAIL");
+  const from = readSetting("LEADS_FROM_EMAIL");
 
   if (!apiKey || !to || !from) {
-    console.error(
-      "request-access: missing RESEND_API_KEY, LEADS_TO_EMAIL, or LEADS_FROM_EMAIL",
-    );
+    // Names only, never values.
+    const missing = Object.entries({ RESEND_API_KEY: apiKey, LEADS_TO_EMAIL: to, LEADS_FROM_EMAIL: from })
+      .filter(([, value]) => !value)
+      .map(([name]) => name);
+    console.error(`request-access: missing ${missing.join(", ")}`);
     return NextResponse.json(
       { error: "Early access requests are temporarily unavailable. Please try again later." },
       { status: 503 },
