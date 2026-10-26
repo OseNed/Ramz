@@ -64,7 +64,7 @@ npx wrangler secret put LEADS_FROM_EMAIL
 npm run cf:deploy
 ```
 
-To serve getramz.com, add a Custom Domain to the `ramz-website` Worker
+To serve getramz.com, add a Custom Domain to the `ramz` Worker
 (dashboard, or a `routes` entry with `"custom_domain": true` in
 `wrangler.jsonc`) once the workers.dev deployment has been checked.
 

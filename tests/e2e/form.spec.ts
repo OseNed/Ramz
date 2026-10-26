@@ -102,4 +102,24 @@ test.describe("early-access form (client)", () => {
     await expect(status(page)).toHaveClass(/is-error/);
     await expect(submit(page)).not.toHaveText("Request received");
   });
+
+  // Real delivery: sends one email to LEADS_TO_EMAIL. Run only against a target
+  // whose Resend secrets are set, e.g.
+  // RESEND_CONFIGURED=1 BASE_URL=https://<preview>.workers.dev npx playwright test -g "delivery" --project=desktop-1440
+  test("delivery: a real submission reaches Resend and shows success", async ({ page }, testInfo) => {
+    test.skip(!process.env.RESEND_CONFIGURED, "set RESEND_CONFIGURED=1 against a configured deployment");
+    test.skip(testInfo.project.name !== "desktop-1440", "send a single test email per run");
+    const marker = `RAMZ delivery test ${new Date().toISOString()}`;
+    await page.getByLabel("Work email").fill("e2e-test@getramz.com");
+    await page.getByLabel("Company name").fill("RAMZ delivery test");
+    await page.getByLabel(/Message/).fill(marker);
+    await page.waitForTimeout(1600); // stay above the server's too-fast threshold
+    const [response] = await Promise.all([
+      page.waitForResponse("**/api/request-access"),
+      submit(page).click(),
+    ]);
+    expect(response.status()).toBe(200);
+    await expect(submit(page)).toHaveText("Request received");
+    testInfo.annotations.push({ type: "check inbox for", description: marker });
+  });
 });
