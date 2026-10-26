@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { isWorkEmail, WORK_EMAIL_MESSAGE } from "@/lib/work-email";
 
 type Status = "idle" | "submitting" | "success" | "error";
 type Field = "email" | "company";
@@ -38,6 +39,7 @@ export function RequestAccessForm() {
 
     // Quick client-side checks; the route re-validates with the same zod schema.
     if (!EMAIL_PATTERN.test(payload.email)) return fail("Enter a valid work email.", "email");
+    if (!isWorkEmail(payload.email)) return fail(WORK_EMAIL_MESSAGE, "email");
     if (!payload.company) return fail("Enter your company name.", "company");
 
     setStatus("submitting");

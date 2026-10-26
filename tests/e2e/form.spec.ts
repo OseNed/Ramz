@@ -26,6 +26,20 @@ test.describe("early-access form (client)", () => {
     await expect(status(page)).toHaveText("Enter a valid work email.");
   });
 
+  test("asks for a work email instead of a personal one", async ({ page }) => {
+    let sent = false;
+    await page.route("**/api/request-access", (route) => {
+      sent = true;
+      return route.fulfill({ status: 200, json: { ok: true } });
+    });
+    await page.getByLabel("Work email").fill("someone@gmail.com");
+    await page.getByLabel("Company name").fill("Acme");
+    await submit(page).click();
+    await expect(status(page)).toHaveText("Please use your work email address.");
+    await expect(page.getByLabel("Work email")).toHaveAttribute("aria-invalid", "true");
+    expect(sent).toBe(false);
+  });
+
   test("requires a company name", async ({ page }) => {
     await page.getByLabel("Work email").fill("e2e-test@getramz.com");
     await submit(page).click();

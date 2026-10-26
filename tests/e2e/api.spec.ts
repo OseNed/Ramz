@@ -36,6 +36,28 @@ test.describe("POST /api/request-access", () => {
     expect((await post(request, { ...valid, company: "x".repeat(201) })).status()).toBe(400);
   });
 
+  test("accepts only work email addresses", async ({ request }) => {
+    for (const email of [
+      "someone@gmail.com",
+      "someone@GMAIL.com",
+      "someone@outlook.co.uk",
+      "someone@hotmail.fr",
+      "someone@yahoo.com.br",
+      "someone@icloud.com",
+      "someone@proton.me",
+      "someone@mailinator.com",
+    ]) {
+      const res = await post(request, { ...valid, email });
+      expect(res.status(), email).toBe(400);
+      expect((await res.json()).error, email).toBe("Please use your work email address.");
+    }
+    // Company domains (including ones that merely contain a provider word) pass validation.
+    for (const email of ["jane@acme.com", "jane@livenation.com", "jane@gmail-partners.io", "jane@team.acme.live"]) {
+      const res = await post(request, { ...valid, email, renderedAt: Date.now() });
+      expect(res.status(), email).toBe(200); // timing check short-circuits after validation
+    }
+  });
+
   test("silently accepts honeypot submissions without sending", async ({ request }) => {
     const res = await post(request, { ...valid, website: "https://spam.example" });
     expect(res.status()).toBe(200);

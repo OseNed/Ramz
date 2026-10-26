@@ -1,7 +1,13 @@
 import { z } from "zod";
+import { isWorkEmail, WORK_EMAIL_MESSAGE } from "./work-email";
 
 export const requestAccessSchema = z.object({
-  email: z.string().trim().min(1, "Enter your work email.").email("Enter a valid email address."),
+  email: z
+    .string()
+    .trim()
+    .min(1, "Enter your work email.")
+    .email("Enter a valid email address.")
+    .refine(isWorkEmail, WORK_EMAIL_MESSAGE),
   company: z.string().trim().min(1, "Enter your company name.").max(200),
   message: z.string().trim().max(2000).optional().default(""),
   // Honeypot: real visitors never fill this hidden field in. Accepted as any
