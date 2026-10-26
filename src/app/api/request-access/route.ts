@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
     from,
     to,
     replyTo: email,
-    subject: `Early access request — ${company}`,
+    subject: `Early access request: ${company}`,
     html: `
       <p><strong>Work email:</strong> ${escapeHtml(email)}</p>
       <p><strong>Company:</strong> ${escapeHtml(company)}</p>
