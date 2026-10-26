@@ -22,6 +22,15 @@ function readSetting(name: Setting): string | undefined {
   }
 }
 
+/** Names (never values) of the Worker's vars, secrets and bindings, for diagnosing setup. */
+function workerEnvNames(): string[] {
+  try {
+    return Object.keys(getCloudflareContext().env).map((name) => JSON.stringify(name));
+  } catch {
+    return [];
+  }
+}
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, "&amp;")
@@ -82,6 +91,7 @@ export async function POST(request: NextRequest) {
       .filter(([, value]) => !value)
       .map(([name]) => name);
     console.error(`request-access: missing ${missing.join(", ")}`);
+    console.error(`request-access: Worker env has: ${workerEnvNames().join(", ") || "(none)"}`);
     return NextResponse.json(
       { error: "Early access requests are temporarily unavailable. Please try again later." },
       { status: 503 },
